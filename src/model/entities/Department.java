@@ -12,14 +12,14 @@ import java.util.Objects;
  *
  * @author slour
  */
-public class Departament implements Serializable {
+public class Department implements Serializable {
     private Integer id;
     private String name;
     
-    public Departament(){
+    public Department(){
     }
 
-    public Departament(Integer id, String name) {
+    public Department(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -58,7 +58,7 @@ public class Departament implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Departament other = (Departament) obj;
+        final Department other = (Department) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }

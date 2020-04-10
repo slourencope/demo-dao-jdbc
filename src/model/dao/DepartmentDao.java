@@ -6,16 +6,16 @@
 package model.dao;
 
 import java.util.List;
-import model.entities.Departament;
+import model.entities.Department;
 
 /**
  *
  * @author slour
  */
-public interface DepartamentDao {
-    void insert(Departament obj);
-    void update(Departament obj);
+public interface DepartmentDao {
+    void insert(Department obj);
+    void update(Department obj);
     void deletbyid(Integer id);
-    Departament findById(Integer id);
-    List <Departament> findAll();
+    Department findById(Integer id);
+    List <Department> findAll();
 }

@@ -15,8 +15,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
@@ -77,7 +75,37 @@ public class SellerDaoJDBC implements SellerDao {
 
     @Override
     public List<Seller> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement(
+                "SELECT seller.*,department.Name as DepName "
+                + "FROM seller INNER JOIN department "
+                + "ON seller.DepartmentId = department.Id "
+                + "ORDER BY Name");
+        
+             rs = st.executeQuery();
+            
+            List <Seller> list = new ArrayList<>();
+            Map<Integer, Department> map = new HashMap<>();
+            while (rs.next()){
+                Department dep = map.get(rs.getInt("DepartmentId"));
+                if (dep == null) {
+                    dep = instantiateDepartament(rs);
+                    map.put(rs.getInt("DepartmentId"), dep);
+                }
+                //Departament dep = instantiateDepartament(rs);
+                Seller obj = instatiateSeller(rs, dep);
+                list.add(obj);
+            }
+            return list;
+        } catch (SQLException ex) {
+            throw new DbException(ex.getMessage());
+            //Logger.getLogger(SellerDaoJDBC.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
     }
 
     @Override
